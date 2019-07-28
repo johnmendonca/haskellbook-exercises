@@ -1,4 +1,4 @@
-module Chp5Ex1 where
+module Chp05Ex1 where
 
 f :: Int -> String
 f = undefined

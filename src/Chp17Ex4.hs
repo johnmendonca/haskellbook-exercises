@@ -97,10 +97,10 @@ instance (Eq a, Eq b) => EqProp (Three' a b) where
   (=-=) = eq
 
 main :: IO ()
-main = do
-  quickBatch $ applicative (Identity ("b", "w", "z"))
-  quickBatch $ applicative (Pair ("b", "w", "z") ("b", "w", "z"))
-  quickBatch $ applicative (Two ("b", "w", "z") ("b", "w", "z"))
-  quickBatch $ applicative (Three ("b", "w", "z") ("b", "w", "z")  ("b", "w", "z"))
-  quickBatch $ applicative (Three' ("b", "w", "z") ("b", "w", "z")  ("b", "w", "z"))
+main = undefined --do
+--  quickBatch $ applicative (Identity ("b", "w", "z"))
+--  quickBatch $ applicative (Pair ("b", "w", "z") ("b", "w", "z"))
+--  quickBatch $ applicative (Two ("b", "w", "z") ("b", "w", "z"))
+--  quickBatch $ applicative (Three ("b", "w", "z") ("b", "w", "z")  ("b", "w", "z"))
+--  quickBatch $ applicative (Three' ("b", "w", "z") ("b", "w", "z")  ("b", "w", "z"))
 

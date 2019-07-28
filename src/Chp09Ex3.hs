@@ -1,4 +1,4 @@
-module Chp9Ex3 where
+module Chp09Ex3 where
 
 myOr :: [Bool] -> Bool
 myOr []     = False

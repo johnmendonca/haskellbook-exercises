@@ -32,6 +32,7 @@ dependencies:
 - scotty
 - containers
 - text
+- time
 
 library:
   source-dirs: src

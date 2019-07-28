@@ -1,4 +1,4 @@
-module Chp4Ex where
+module Chp04Ex where
 
 myAbs :: Integer -> Integer
 myAbs x = 

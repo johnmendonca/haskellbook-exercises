@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Main where
+module Chp26Ex7 where
 
 import Control.Monad.Trans.Class
 import Control.Monad.Trans.Reader

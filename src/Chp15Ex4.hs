@@ -7,9 +7,11 @@ newtype Mem s a =
     runMem :: s -> (a,s)
   }
 
+instance Semigroup a => Semigroup (Mem s a) where
+  (<>) (Mem f) (Mem g) = Mem $ \s -> (fst (f s) <> fst (g s), snd $ f (snd $ g s)) 
+
 instance Monoid a => Monoid (Mem s a) where
   mempty = Mem $ \s -> (mempty, s)
-  mappend (Mem f) (Mem g) = Mem $ \s -> (fst (f s) <> fst (g s), snd $ f (snd $ g s)) 
 
 f' = Mem $ \s -> ("hi", s + 1)
 

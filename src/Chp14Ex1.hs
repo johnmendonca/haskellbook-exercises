@@ -1,4 +1,4 @@
-module Chp14Ex where
+module Chp14Ex1 where
 
 import Test.QuickCheck
 import Data.List (sort)

@@ -1,4 +1,4 @@
-module Chp6Ex2 where
+module Chp06Ex2 where
 
 import Data.List (sort)
 

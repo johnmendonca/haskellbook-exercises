@@ -1,4 +1,4 @@
-module Chp7Ex2 where
+module Chp07Ex2 where
 
 tensDigit :: Integral a => a -> a
 tensDigit x = d

@@ -1,4 +1,4 @@
-module Chp5Ex2 where
+module Chp05Ex2 where
 
 data A
 data B

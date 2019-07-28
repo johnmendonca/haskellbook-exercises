@@ -1,4 +1,4 @@
-module Chp7Ex1 where
+module Chp07Ex1 where
 
 mTh x y z = x * y * z
 

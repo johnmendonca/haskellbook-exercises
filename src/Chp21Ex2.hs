@@ -79,5 +79,5 @@ data S n a = S (n a) a deriving (Eq, Ord, Show)
 instance Functor n => Functor (S n) where
   fmap f (S m x) = S (f <$> m) (f x)
 
-instance Foldable n => Foldable (S n) where
-  foldMap f (S m x) = mappend (foldMap f m) x
+--instance Foldable n => Foldable (S n) where
+--  foldMap f (S m x) = mappend (foldMap f m) x

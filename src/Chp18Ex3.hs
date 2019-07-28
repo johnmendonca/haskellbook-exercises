@@ -79,4 +79,4 @@ main = do
   quickBatch $ monad (NopeDotJpg :: Nope (Int, Int, Int))
   quickBatch $ monad (Second ("b", "w", 1 :: Int) :: SumB (String, String, Int) (String, String, Int))
   quickBatch $ monad (First ("b", "w", 1 :: Int) :: SumB (String, String, Int) (String, String, Int))
-  quickBatch $ monad (Identity ("b", "w", "z"))
+  --quickBatch $ monad (Identity ("b", "w", "z"))

@@ -1,4 +1,4 @@
-module Chp6Ex1 where
+module Chp06Ex1 where
 
 data TisAnInteger = TisAn Integer
 

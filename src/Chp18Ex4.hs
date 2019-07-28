@@ -1,4 +1,4 @@
-module Chp17Ex2 where
+module Chp18Ex4 where
 
 import Control.Applicative
 import Data.Monoid
@@ -11,9 +11,11 @@ data Bull = Fools | Twoo deriving (Eq, Show)
 instance Arbitrary Bull where
   arbitrary = frequency [(1, return Fools), (1, return Twoo)]
 
+instance Semigroup Bull where
+  (<>) _ _ = Fools
+
 instance Monoid Bull where
   mempty = Fools
-  mappend _ _ = Fools
 
 instance EqProp Bull where (=-=) = eq
 
@@ -51,6 +53,9 @@ instance Arbitrary a => Arbitrary (List a) where
     a <- arbitrary
     frequency [(1, return Nil), (3, return (Cons a Nil))]
 
+instance (Eq a) => EqProp (List a) where
+  (=-=) = eq
+
 instance Functor List where
   fmap _ Nil         = Nil
   fmap f (Cons x xs) = Cons (f x) (fmap f xs)
@@ -59,13 +64,19 @@ instance Applicative List where
   pure x = Cons x Nil
   (<*>) Nil _ = Nil
   (<*>) _ Nil = Nil
-  (<*>) xs ys = flatMap' (\f -> fmap f ys) xs
+  (<*>) xs ys = flatMap' (`fmap` ys) xs
+
+instance Monad List where
+  return = pure
+  (>>=) = flip flatMap'
 
 newtype ZipList' a = ZipList' (List a) deriving (Eq, Show)
 
+instance Semigroup a => Semigroup (ZipList' a) where
+  (<>) = liftA2 (<>)
+
 instance Monoid a => Monoid (ZipList' a) where
   mempty = pure mempty
-  mappend = liftA2 mappend
 
 instance Arbitrary a => Arbitrary (ZipList' a) where
   arbitrary = ZipList' <$> arbitrary
@@ -85,6 +96,7 @@ instance Applicative ZipList' where
   (<*>) (ZipList' xs) (ZipList' ys) = ZipList' $ zipWith' id xs ys
 
 main :: IO ()
-main = do
+main = undefined --do
   --quickBatch (monoid Twoo)
-  quickBatch $ applicative (ZipList' (Cons ("b", "w", (1 :: Int)) Nil))
+  --quickBatch $ applicative (ZipList' (Cons ("b", "w", 1 :: Int) Nil))
+  --quickBatch $ monad (Cons ("b", "w", 1 :: Int) Nil)

@@ -1,14 +1,15 @@
-module CHp15Ex3 where
+module Chp15Ex3 where
 
-import Data.Monoid
 import Test.QuickCheck
 import Text.Show.Functions
 
 data Trivial = Trivial deriving (Eq, Show)
 
+instance Semigroup Trivial where
+  (<>) _ _ = Trivial
+  
 instance Monoid Trivial where
   mempty = Trivial
-  mappend _ _ = Trivial
 
 instance Arbitrary Trivial where
   arbitrary = return Trivial
@@ -26,9 +27,11 @@ type TrivialAssoc = Trivial -> Trivial -> Trivial -> Bool
 
 newtype Identity a = Identity a deriving (Eq, Show)
 
+instance (Semigroup a) => Semigroup (Identity a) where
+  (<>) (Identity x) (Identity y) = Identity (x <> y)
+
 instance (Monoid a) => Monoid (Identity a) where
   mempty = Identity mempty
-  mappend (Identity x) (Identity y) = Identity (x `mappend` y)
 
 instance (Arbitrary a) => Arbitrary (Identity a) where
   arbitrary = do
@@ -39,9 +42,11 @@ type IdentityAssoc = Identity String -> Identity String -> Identity String -> Bo
 
 data Two a b = Two a b deriving (Eq, Show)
 
+instance (Semigroup a, Semigroup b) => Semigroup (Two a b) where
+  (<>) (Two x x') (Two y y') = Two (x <> y) (x' <> y')
+
 instance (Monoid a, Monoid b) => Monoid (Two a b) where
   mempty = Two mempty mempty
-  mappend (Two x x') (Two y y') = Two (x `mappend` y) (x' `mappend` y')
 
 instance (Arbitrary a, Arbitrary b) => Arbitrary (Two a b) where
   arbitrary = do
@@ -53,9 +58,11 @@ type TwoAssoc = Two String (Maybe String) -> Two String (Maybe String) -> Two St
 
 newtype BoolConj = BoolConj Bool deriving (Eq, Show)
 
+instance Semigroup BoolConj where
+  (<>) (BoolConj x) (BoolConj y) = BoolConj (x && y)
+
 instance Monoid BoolConj where
   mempty = BoolConj True
-  mappend (BoolConj x) (BoolConj y) = BoolConj (x && y)
 
 instance Arbitrary BoolConj where
   arbitrary = elements [BoolConj True, BoolConj False]
@@ -64,9 +71,11 @@ type BoolConjAssoc = BoolConj -> BoolConj -> BoolConj -> Bool
 
 newtype BoolDisj = BoolDisj Bool deriving (Eq, Show)
 
+instance Semigroup BoolDisj where
+  (<>) (BoolDisj x) (BoolDisj y) = BoolDisj (x || y)
+
 instance Monoid BoolDisj where
   mempty = BoolDisj False
-  mappend (BoolDisj x) (BoolDisj y) = BoolDisj (x || y)
 
 instance Arbitrary BoolDisj where
   arbitrary = elements [BoolDisj True, BoolDisj False]
@@ -78,9 +87,11 @@ newtype Combine a b = Combine { unCombine :: (a -> b) }
 instance Show (Combine a b) where
   show (Combine f) = show f
 
+instance (Semigroup b) => Semigroup (Combine a b) where
+  (<>) (Combine f) (Combine g) = Combine $ \x -> f x <> g x
+
 instance (Monoid b) => Monoid (Combine a b) where
   mempty = Combine $ \_ -> mempty
-  mappend (Combine f) (Combine g) = Combine $ \x -> f x `mappend` g x
 
 instance (CoArbitrary a, Arbitrary b) => Arbitrary (Combine a b) where
   arbitrary = do
@@ -95,9 +106,11 @@ newtype Comp a = Comp { unComp :: (a -> a) }
 instance Show (Comp a) where
   show (Comp f) = show f
 
+instance Semigroup (Comp a) where
+  (<>) (Comp f) (Comp g) = Comp (f . g)
+
 instance Monoid (Comp a) where
   mempty = Comp id
-  mappend (Comp f) (Comp g) = Comp (f . g)
 
 instance (CoArbitrary a, Arbitrary a) => Arbitrary (Comp a) where
   arbitrary = do

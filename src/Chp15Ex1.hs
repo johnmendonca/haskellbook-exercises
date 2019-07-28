@@ -6,11 +6,13 @@ import Test.QuickCheck
 
 data Optional a = Nada | Only a deriving (Eq, Show)
 
+instance Semigroup a => Semigroup (Optional a) where
+  (<>) Nada x = x
+  (<>) x Nada = x
+  (<>) (Only x) (Only y) = Only (x <> y)
+
 instance Monoid a => Monoid (Optional a) where
   mempty = Nada
-  mappend Nada x = x
-  mappend x Nada = x
-  mappend (Only x) (Only y) = Only (x `mappend` y)
 
 instance (Arbitrary a) => Arbitrary (Optional a) where
   arbitrary = do
@@ -21,11 +23,13 @@ newtype First' a =
   First' { getFirst' :: Optional a }
   deriving (Eq, Show)
 
+instance Semigroup (First' a) where
+  (<>) (First' Nada) x = x
+  (<>) x (First' Nada) = x
+  (<>) (First' (Only x)) (First' (Only y)) = First' (Only x)
+
 instance Monoid (First' a) where
   mempty = First' Nada
-  mappend (First' Nada) x = x
-  mappend x (First' Nada) = x
-  mappend (First' (Only x)) (First' (Only y)) = First' (Only x)
 
 instance (Arbitrary a) => Arbitrary (First' a) where
   arbitrary = do
@@ -33,7 +37,7 @@ instance (Arbitrary a) => Arbitrary (First' a) where
     return (First' a)
 
 firstMappend :: First' a -> First' a -> First' a
-firstMappend = mappend
+firstMappend = (<>)
 
 type FirstMappend =
      First' (Optional String)

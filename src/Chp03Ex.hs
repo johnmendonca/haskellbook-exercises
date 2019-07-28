@@ -1,4 +1,4 @@
-module Chp3Ex where
+module Chp03Ex where
 
 addBang str = str ++ "!"
 

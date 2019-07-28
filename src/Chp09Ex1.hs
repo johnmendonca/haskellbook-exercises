@@ -1,4 +1,4 @@
-module Chp9Ex1 where
+module Chp09Ex1 where
 
 safeHead :: [a] -> Maybe a
 safeHead [] = Nothing

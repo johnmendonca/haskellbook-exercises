@@ -1,4 +1,4 @@
-module Chp12ex2 where
+module Chp12Ex2 where
 
 consLeft :: Either a b -> [a] -> [a]
 consLeft (Right _) xs = xs

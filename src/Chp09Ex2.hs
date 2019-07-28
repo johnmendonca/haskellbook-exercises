@@ -1,4 +1,4 @@
-module Chp9Ex2 where
+module Chp09Ex2 where
 
 import Data.Char
 
